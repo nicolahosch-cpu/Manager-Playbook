@@ -1,0 +1,682 @@
+<!-- ============================================================
+     CYARA MANAGER PLAYBOOK 2026 — SharePoint Native Version
+     HOW TO USE:
+     1. Edit your SharePoint page
+     2. Add a "Script Editor" web part (classic) OR
+        "Embed" web part and paste this entire code
+     3. Publish the page
+     ============================================================ -->
+
+<div id="cmp2026">
+
+<style>
+#cmp2026 {
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(160deg, #0B2240 0%, #0D1F3C 40%, #0E1B3D 70%, #130D2E 100%);
+  color: #fff;
+  padding: 0;
+  margin: 0 -32px;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+#cmp2026 *, #cmp2026 *::before, #cmp2026 *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ORBS */
+.cmp-orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(80px);
+  opacity: 0.15;
+}
+.cmp-orb-1 { width: 500px; height: 500px; background: #071A90; top: -150px; right: -100px; }
+.cmp-orb-2 { width: 350px; height: 350px; background: #972CE1; bottom: 5%; left: -80px; }
+.cmp-orb-3 { width: 300px; height: 300px; background: #27AAE1; top: 45%; right: 15%; }
+
+/* NAV */
+.cmp-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 40px;
+  background: rgba(11,28,56,0.9);
+  border-bottom: 1px solid rgba(39,170,225,0.2);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.cmp-nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  font-size: 17px;
+  letter-spacing: -0.5px;
+}
+.cmp-logo-mark {
+  width: 30px; height: 30px;
+  background: linear-gradient(135deg, #27AAE1, #972CE1);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 800; color: white;
+}
+.cmp-nav-logo span { color: #27AAE1; }
+.cmp-nav-pill {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(39,170,225,0.25);
+  border-radius: 100px;
+  padding: 5px 14px;
+  font-size: 11px;
+  color: #27AAE1;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.cmp-nav-dots {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.cmp-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s;
+  padding: 0;
+}
+.cmp-dot.active { background: #27AAE1; transform: scale(1.4); }
+
+/* PROGRESS */
+.cmp-progress {
+  height: 3px;
+  background: rgba(255,255,255,0.05);
+  position: sticky;
+  top: 57px;
+  z-index: 49;
+}
+.cmp-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #27AAE1, #972CE1);
+  transition: width 0.4s ease;
+  width: 0%;
+}
+
+/* PAGES */
+.cmp-page { display: none; padding: 60px 40px 80px; max-width: 900px; margin: 0 auto; animation: cmpFade 0.4s ease; }
+.cmp-page.active { display: block; }
+@keyframes cmpFade { from { opacity:0; transform: translateY(12px); } to { opacity:1; transform:translateY(0); } }
+
+/* COVER */
+.cmp-cover { text-align: center; padding: 80px 20px; }
+.cmp-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: #27AAE1; margin-bottom: 20px; display: block; }
+.cmp-cover-title { font-size: clamp(48px, 7vw, 88px); font-weight: 800; line-height: 0.95; letter-spacing: -2px; margin-bottom: 20px; }
+.cmp-grad { background: linear-gradient(135deg, #27AAE1, #27DBE1, #972CE1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.cmp-cover-sub { font-size: 17px; font-weight: 300; color: rgba(255,255,255,0.55); max-width: 460px; line-height: 1.6; margin: 0 auto 48px; }
+.cmp-toc { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; max-width: 620px; margin: 0 auto 48px; }
+.cmp-toc-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(39,170,225,0.2);
+  border-radius: 14px;
+  padding: 18px 20px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.cmp-toc-card:hover { border-color: rgba(39,170,225,0.5); transform: translateY(-2px); background: rgba(39,170,225,0.08); }
+.cmp-toc-num { font-size: 10px; font-weight: 700; letter-spacing: 2px; color: #27AAE1; text-transform: uppercase; margin-bottom: 5px; display: block; }
+.cmp-toc-title { font-weight: 700; font-size: 14px; color: white; margin-bottom: 4px; }
+.cmp-toc-sub { font-size: 12px; color: rgba(255,255,255,0.4); line-height: 1.4; }
+.cmp-cta {
+  background: linear-gradient(135deg, #27AAE1, #071A90);
+  border: none; border-radius: 12px;
+  padding: 14px 44px;
+  font-size: 14px; font-weight: 700;
+  color: white; cursor: pointer;
+  transition: all 0.3s; letter-spacing: 0.3px;
+}
+.cmp-cta:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(39,170,225,0.3); }
+
+/* SECTION HEADER */
+.cmp-badge {
+  display: inline-flex; align-items: center;
+  background: rgba(39,170,225,0.1);
+  border: 1px solid rgba(39,170,225,0.25);
+  border-radius: 100px; padding: 5px 14px;
+  font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+  color: #27AAE1; text-transform: uppercase; margin-bottom: 16px;
+}
+.cmp-section-title { font-size: clamp(30px, 5vw, 48px); font-weight: 800; letter-spacing: -1px; line-height: 1.05; margin-bottom: 14px; }
+.cmp-section-title em { font-style: normal; background: linear-gradient(135deg, #27AAE1, #27DBE1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.cmp-section-intro { font-size: 15px; color: rgba(255,255,255,0.5); line-height: 1.7; max-width: 580px; font-weight: 300; margin-bottom: 40px; }
+.cmp-divider { height: 1px; background: linear-gradient(90deg, rgba(39,170,225,0.2), transparent); margin: 36px 0; }
+
+/* SUBSECTION */
+.cmp-sub-title { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+.cmp-icon { width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
+.cmp-ic { background: rgba(39,170,225,0.12); }
+.cmp-ip { background: rgba(151,44,225,0.12); }
+.cmp-it { background: rgba(39,219,225,0.12); }
+.cmp-io { background: rgba(253,183,102,0.12); }
+.cmp-ig { background: rgba(0,163,118,0.12); }
+
+/* GLASS CARD */
+.cmp-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(39,170,225,0.2);
+  border-radius: 18px; padding: 24px 28px; margin-bottom: 16px;
+}
+.cmp-card p { font-size: 14px; line-height: 1.75; color: rgba(255,255,255,0.7); font-weight: 300; }
+.cmp-card p strong { color: white; font-weight: 500; }
+
+/* CALLOUT */
+.cmp-callout { border-left: 3px solid #27AAE1; padding: 14px 18px; background: rgba(39,170,225,0.07); border-radius: 0 10px 10px 0; margin: 16px 0; font-size: 14px; color: rgba(255,255,255,0.8); line-height: 1.6; }
+.cmp-callout.cp { border-color: #972CE1; background: rgba(151,44,225,0.07); }
+.cmp-callout.ct { border-color: #27DBE1; background: rgba(39,219,225,0.07); }
+.cmp-callout.co { border-color: #FDB766; background: rgba(253,183,102,0.07); }
+
+/* LISTS */
+.cmp-bullets { list-style: none; display: flex; flex-direction: column; gap: 9px; margin: 14px 0; }
+.cmp-bullets li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; line-height: 1.65; color: rgba(255,255,255,0.72); }
+.cmp-bullets li::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #27AAE1; margin-top: 8px; flex-shrink: 0; }
+.cmp-bullets li strong { color: white; font-weight: 500; }
+.cmp-arrows { list-style: none; display: flex; flex-direction: column; gap: 8px; margin: 14px 0; }
+.cmp-arrows li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; line-height: 1.65; color: rgba(255,255,255,0.72); }
+.cmp-arrows li::before { content: '→'; color: #27AAE1; font-weight: 600; flex-shrink: 0; }
+.cmp-arrows li strong { color: white; font-weight: 500; }
+
+/* GRID CARDS */
+.cmp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 14px; margin: 16px 0; }
+.cmp-mini { background: rgba(255,255,255,0.05); border: 1px solid rgba(39,170,225,0.18); border-radius: 14px; padding: 18px; transition: all 0.3s; }
+.cmp-mini:hover { border-color: rgba(39,170,225,0.4); transform: translateY(-2px); }
+.cmp-mini-num { font-size: 30px; font-weight: 800; background: linear-gradient(135deg,#27AAE1,#27DBE1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1; margin-bottom: 6px; }
+.cmp-mini-label { font-size: 13px; font-weight: 700; color: white; margin-bottom: 5px; }
+.cmp-mini-body { font-size: 12px; color: rgba(255,255,255,0.45); line-height: 1.5; }
+
+/* 2 COL */
+.cmp-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 16px 0; }
+
+/* OS GRID */
+.cmp-osgrid { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; margin: 16px 0; }
+.cmp-ositem { background: rgba(255,255,255,0.05); border: 1px solid rgba(39,170,225,0.18); border-radius: 12px; padding: 16px 18px; display: flex; align-items: flex-start; gap: 12px; }
+.cmp-osarrow { width: 30px; height: 30px; border-radius: 7px; background: linear-gradient(135deg,#27AAE1,#071A90); display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
+.cmp-ostitle { font-size: 13px; font-weight: 700; color: white; margin-bottom: 2px; }
+.cmp-ossub { font-size: 11px; color: rgba(255,255,255,0.4); line-height: 1.4; }
+
+/* CHIPS */
+.cmp-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0; }
+.cmp-chip { background: rgba(255,255,255,0.05); border: 1px solid rgba(39,170,225,0.22); border-radius: 100px; padding: 7px 16px; font-size: 12px; font-weight: 600; color: #27AAE1; display: flex; align-items: center; gap: 6px; text-decoration: none; transition: all 0.3s; }
+.cmp-chip:hover { border-color: rgba(39,170,225,0.55); background: rgba(39,170,225,0.1); color: #27AAE1; }
+
+/* PITFALL */
+.cmp-pitfall { background: rgba(253,183,102,0.08); border: 1px solid rgba(253,183,102,0.25); border-radius: 14px; padding: 18px 22px; margin: 16px 0; }
+.cmp-pitfall-title { font-size: 12px; font-weight: 700; color: #FDB766; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
+
+/* QUOTE */
+.cmp-quote { font-size: clamp(16px,2.5vw,22px); font-weight: 700; letter-spacing: -0.3px; line-height: 1.4; color: white; text-align: center; padding: 36px 28px; background: linear-gradient(135deg, rgba(39,170,225,0.08), rgba(151,44,225,0.08)); border: 1px solid rgba(39,170,225,0.2); border-radius: 20px; margin: 28px 0; position: relative; }
+.cmp-quote::before { content: '"'; position: absolute; top: -8px; left: 28px; font-size: 72px; color: #27AAE1; opacity: 0.25; font-family: Georgia, serif; line-height: 1; }
+.cmp-quote em { font-style: normal; background: linear-gradient(135deg,#27AAE1,#27DBE1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+/* STATS */
+.cmp-stats { display: flex; gap: 14px; flex-wrap: wrap; margin: 20px 0; }
+.cmp-stat { flex: 1; min-width: 120px; background: rgba(255,255,255,0.05); border: 1px solid rgba(39,170,225,0.18); border-radius: 14px; padding: 18px; text-align: center; }
+.cmp-stat-num { font-size: 32px; font-weight: 800; background: linear-gradient(135deg,#27AAE1,#27DBE1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1; margin-bottom: 5px; }
+.cmp-stat-label { font-size: 11px; color: rgba(255,255,255,0.45); font-weight: 300; }
+
+/* TABLE */
+.cmp-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13px; }
+.cmp-table th { background: rgba(39,170,225,0.1); color: #27AAE1; font-weight: 700; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; padding: 11px 14px; text-align: left; border-bottom: 1px solid rgba(39,170,225,0.2); }
+.cmp-table td { padding: 11px 14px; border-bottom: 1px solid rgba(255,255,255,0.05); color: rgba(255,255,255,0.72); vertical-align: top; line-height: 1.5; }
+.cmp-table tr:last-child td { border-bottom: none; }
+
+/* NAV BUTTONS */
+.cmp-page-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 56px; padding-top: 24px; border-top: 1px solid rgba(39,170,225,0.1); }
+.cmp-btn { display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.05); border: 1px solid rgba(39,170,225,0.22); border-radius: 10px; padding: 11px 22px; font-size: 13px; font-weight: 700; color: white; cursor: pointer; transition: all 0.3s; }
+.cmp-btn:hover { border-color: #27AAE1; color: #27AAE1; }
+.cmp-btn.primary { background: linear-gradient(135deg,#27AAE1,#071A90); border-color: transparent; }
+.cmp-btn.primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(39,170,225,0.3); }
+.cmp-page-counter { font-size: 11px; color: rgba(255,255,255,0.3); letter-spacing: 1px; }
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  .cmp-toc, .cmp-2col, .cmp-osgrid { grid-template-columns: 1fr; }
+  .cmp-stats { flex-direction: column; }
+  .cmp-page { padding: 40px 20px 60px; }
+  .cmp-nav { padding: 14px 20px; }
+}
+</style>
+
+<!-- ORBS -->
+<div class="cmp-orb cmp-orb-1"></div>
+<div class="cmp-orb cmp-orb-2"></div>
+<div class="cmp-orb cmp-orb-3"></div>
+
+<!-- NAV -->
+<nav class="cmp-nav">
+  <div class="cmp-nav-logo">
+    <div class="cmp-logo-mark">C</div>
+    <span>CYARA</span>
+  </div>
+  <div class="cmp-nav-dots" id="cmpDots"></div>
+  <div class="cmp-nav-pill">Manager Playbook 2026</div>
+</nav>
+<div class="cmp-progress"><div class="cmp-progress-fill" id="cmpProgress"></div></div>
+
+<!-- ═══ PAGE 0: COVER ═══ -->
+<div class="cmp-page active" id="cmp-p0">
+  <div class="cmp-cover">
+    <span class="cmp-eyebrow">Cyara · People & Performance · 2026</span>
+    <h1 class="cmp-cover-title">Manager<br><span class="cmp-grad">Playbook</span></h1>
+    <p class="cmp-cover-sub">The standard for how great managers operate at Cyara — setting the bar for performance, culture, and leadership.</p>
+    <div class="cmp-toc">
+      <div class="cmp-toc-card" onclick="cmpGo(1)">
+        <span class="cmp-toc-num">Section 01</span>
+        <div class="cmp-toc-title">Foundations</div>
+        <div class="cmp-toc-sub">Role, expectations & the manager operating system</div>
+      </div>
+      <div class="cmp-toc-card" onclick="cmpGo(2)">
+        <span class="cmp-toc-num">Section 02</span>
+        <div class="cmp-toc-title">Performance System</div>
+        <div class="cmp-toc-sub">Goal setting, accountability & evidence-based decisions</div>
+      </div>
+      <div class="cmp-toc-card" onclick="cmpGo(3)">
+        <span class="cmp-toc-num">Section 03</span>
+        <div class="cmp-toc-title">Managing People</div>
+        <div class="cmp-toc-sub">Feedback, coaching & difficult conversations</div>
+      </div>
+      <div class="cmp-toc-card" onclick="cmpGo(4)">
+        <span class="cmp-toc-num">Section 04</span>
+        <div class="cmp-toc-title">Culture & Impact</div>
+        <div class="cmp-toc-sub">Recognition, hiring & AI enablement</div>
+      </div>
+    </div>
+    <button class="cmp-cta" onclick="cmpGo(1)">Begin →</button>
+  </div>
+</div>
+
+<!-- ═══ PAGE 1: FOUNDATIONS ═══ -->
+<div class="cmp-page" id="cmp-p1">
+  <span class="cmp-badge">01 · Foundations</span>
+  <h2 class="cmp-section-title">Role of the<br><em>Manager</em></h2>
+  <p class="cmp-section-intro">At Cyara, managers are responsible for driving performance, developing people, and delivering results — while reinforcing a high-performance culture.</p>
+
+  <div class="cmp-card">
+    <p>This is <strong>not a coordination role</strong>. It is a <strong>leadership and accountability role</strong>. Managers are the primary driver of performance, engagement, and culture within their teams.</p>
+  </div>
+
+  <div class="cmp-sub-title"><div class="cmp-icon cmp-ic">🎯</div>Managers are expected to</div>
+  <ul class="cmp-bullets">
+    <li>Deliver <strong>team outcomes aligned to business priorities</strong></li>
+    <li>Set clear expectations and ensure <strong>accountability for performance</strong></li>
+    <li>Make <strong>fair, consistent, and evidence-based decisions</strong></li>
+    <li>Develop individuals and build <strong>team capability over time</strong></li>
+    <li>Reinforce behaviours that support <strong>winning outcomes and company values</strong></li>
+    <li>Prioritise effectively and <strong>focus the team on what matters most</strong></li>
+    <li>Remove obstacles and <strong>enable the team to deliver effectively</strong></li>
+  </ul>
+
+  <div class="cmp-divider"></div>
+
+  <div class="cmp-sub-title"><div class="cmp-icon cmp-it">✅</div>What Success Looks Like</div>
+  <div class="cmp-2col">
+    <div class="cmp-card" style="margin:0;border-color:rgba(39,170,225,0.3);">
+      <div style="font-size:11px;font-weight:700;color:#27AAE1;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">Strong Managers</div>
+      <ul class="cmp-bullets">
+        <li>Set clear, outcome-based goals</li>
+        <li>Hold individuals accountable for delivery</li>
+        <li>Make consistent, evidence-based decisions</li>
+        <li>Provide clear, timely feedback</li>
+        <li>Address underperformance early and directly</li>
+      </ul>
+    </div>
+    <div class="cmp-card" style="margin:0;border-color:rgba(39,219,225,0.3);">
+      <div style="font-size:11px;font-weight:700;color:#27DBE1;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">Their Teams</div>
+      <ul class="cmp-bullets">
+        <li>Clarity on expectations</li>
+        <li>Strong alignment to priorities</li>
+        <li>Consistent delivery of outcomes</li>
+        <li>High engagement and accountability</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="cmp-divider"></div>
+
+  <div class="cmp-sub-title"><div class="cmp-icon cmp-ic">⚙️</div>The Manager Operating System</div>
+  <div class="cmp-osgrid">
+    <div class="cmp-ositem"><div class="cmp-osarrow">→</div><div><div class="cmp-ostitle">Set Direction</div><div class="cmp-ossub">Goal Setting & Alignment</div></div></div>
+    <div class="cmp-ositem"><div class="cmp-osarrow">→</div><div><div class="cmp-ostitle">Manage Performance</div><div class="cmp-ossub">Reviews, decisions, calibration</div></div></div>
+    <div class="cmp-ositem"><div class="cmp-osarrow">→</div><div><div class="cmp-ostitle">Develop People</div><div class="cmp-ossub">Feedback, coaching, 1:1s</div></div></div>
+    <div class="cmp-ositem"><div class="cmp-osarrow">→</div><div><div class="cmp-ostitle">Reinforce Culture</div><div class="cmp-ossub">Recognition, behaviours, standards</div></div></div>
+  </div>
+
+  <div class="cmp-sub-title" style="margin-top:28px;"><div class="cmp-icon cmp-it">⚖️</div>Core Expectations</div>
+  <div class="cmp-grid">
+    <div class="cmp-mini"><div class="cmp-mini-num">1</div><div class="cmp-mini-label">Drive Performance</div><div class="cmp-mini-body">Set clear goals, track progress, deliver results through your team</div></div>
+    <div class="cmp-mini"><div class="cmp-mini-num">2</div><div class="cmp-mini-label">Evidence-Based Decisions</div><div class="cmp-mini-body">Anchor to data and outcomes — avoid bias and inconsistency</div></div>
+    <div class="cmp-mini"><div class="cmp-mini-num">3</div><div class="cmp-mini-label">Lead People</div><div class="cmp-mini-body">Regular feedback, effective 1:1s, support growth and development</div></div>
+    <div class="cmp-mini"><div class="cmp-mini-num">4</div><div class="cmp-mini-label">Reinforce Culture</div><div class="cmp-mini-body">Recognise winning behaviours, model values, set high standards</div></div>
+    <div class="cmp-mini"><div class="cmp-mini-num">5</div><div class="cmp-mini-label">Own & Accountability</div><div class="cmp-mini-body">Address issues early, follow through on commitments</div></div>
+  </div>
+
+  <div class="cmp-sub-title" style="margin-top:28px;"><div class="cmp-icon cmp-ic">🔗</div>Supporting Tools</div>
+  <div class="cmp-chips">
+    <a href="https://lattice.com/login" target="_blank" class="cmp-chip">⚡ Lattice — Goals & Reviews ↗</a>
+    <a href="https://bonus.ly/users/sign_in_start" target="_blank" class="cmp-chip">🎁 Bonusly — Recognition ↗</a>
+    <span class="cmp-chip">🤝 HRBP — Coaching & Support</span>
+  </div>
+
+  <div class="cmp-quote">Being a manager at Cyara means setting a <em>high bar for performance</em>, making fair consistent decisions, and creating an environment where people know what is expected and can succeed.</div>
+
+  <div class="cmp-page-nav">
+    <button class="cmp-btn" onclick="cmpGo(0)">← Back</button>
+    <span class="cmp-page-counter">1 / 4</span>
+    <button class="cmp-btn primary" onclick="cmpGo(2)">Section 02 →</button>
+  </div>
+</div>
+
+<!-- ═══ PAGE 2: PERFORMANCE ═══ -->
+<div class="cmp-page" id="cmp-p2">
+  <span class="cmp-badge">02 · Performance System</span>
+  <h2 class="cmp-section-title">Goal Setting &<br><em>Accountability</em></h2>
+  <p class="cmp-section-intro">All managers are accountable for setting the quality bar — not just approving goals. If we can't measure it, we can't fairly assess it.</p>
+
+  <div class="cmp-sub-title"><div class="cmp-icon cmp-ic">🎯</div>The Standard</div>
+  <div class="cmp-stats">
+    <div class="cmp-stat"><div class="cmp-stat-num">4–6</div><div class="cmp-stat-label">SMART goals per employee</div></div>
+    <div class="cmp-stat"><div class="cmp-stat-num">100%</div><div class="cmp-stat-label">Goal weights must total</div></div>
+    <div class="cmp-stat"><div class="cmp-stat-num">~1</div><div class="cmp-stat-label">Goal should meaningfully stretch</div></div>
+  </div>
+  <ul class="cmp-bullets">
+    <li>Every goal includes: <strong>metric + target + timeframe</strong></li>
+    <li>Goals are <strong>outcome-based</strong>, not task lists</li>
+    <li>Goals clearly <strong>align to team and company priorities</strong></li>
+    <li>Success is <strong>measurable and accountable</strong></li>
+  </ul>
+
+  <div class="cmp-callout"><strong>Your role as a manager:</strong> You are not approving goals. You are <strong>setting the quality bar</strong>. You are responsible for defining what "winning" looks like in your team.</div>
+
+  <div class="cmp-divider"></div>
+
+  <div class="cmp-sub-title"><div class="cmp-icon cmp-it">🛠</div>When Reviewing Goals — Ask Consistently</div>
+  <ul class="cmp-arrows">
+    <li>"How will success be measured?"</li>
+    <li>"What outcome does this drive?"</li>
+    <li>"What would great look like?"</li>
+    <li>"Could we defend this at review?"</li>
+  </ul>
+  <div class="cmp-callout ct">👉 If the answer isn't clear — the goal isn't ready.</div>
+
+  <div class="cmp-pitfall">
+    <div class="cmp-pitfall-title">⚠️ Send goals back if they…</div>
+    <ul class="cmp-bullets">
+      <li>Lack a metric, baseline, or target</li>
+      <li>Have no timeframe</li>
+      <li>Read like a task list</li>
+      <li>Don't link to team or company priorities</li>
+      <li>Cannot be objectively measured</li>
+    </ul>
+  </div>
+
+  <div class="cmp-divider"></div>
+
+  <div class="cmp-sub-title"><div class="cmp-icon cmp-ip">⚖️</div>Evidence-Based Decision Making</div>
+  <div class="cmp-2col">
+    <ul class="cmp-bullets">
+      <li><strong>Evidence-based</strong>, not opinion-based</li>
+      <li>Reflective of the <strong>full review period</strong></li>
+      <li>Focused on <strong>impact, not activity</strong></li>
+    </ul>
+    <ul class="cmp-bullets">
+      <li>Aligned to <strong>role expectations</strong></li>
+      <li><strong>Clear, consistent, and defensible</strong> in calibration</li>
+    </ul>
+  </div>
+
+  <div class="cmp-sub-title" style="margin-top:20px;"><div class="cmp-icon cmp-io">⚠️</div>Biases to Actively Mitigate</div>
+  <div class="cmp-grid">
+    <div class="cmp-mini"><div class="cmp-mini-label">Recency Bias</div><div class="cmp-mini-body">Review the full cycle — not just what's top of mind</div></div>
+    <div class="cmp-mini"><div class="cmp-mini-label">Halo / Horns Effect</div><div class="cmp-mini-body">One strong or weak moment shouldn't define the whole view</div></div>
+    <div class="cmp-mini"><div class="cmp-mini-label">Affinity Bias</div><div class="cmp-mini-body">Don't favour those who are most like you</div></div>
+    <div class="cmp-mini"><div class="cmp-mini-label">Confirmation Bias</div><div class="cmp-mini-body">Look for evidence that challenges your assumptions too</div></div>
+  </div>
+
+  <div class="cmp-divider"></div>
+
+  <div class="cmp-sub-title"><div class="cmp-icon cmp-ic">🔄</div>Performance, 360s & Promotions</div>
+  <table class="cmp-table">
+    <thead><tr><th>Process</th><th>What it assesses</th><th>Based on</th></tr></thead>
+    <tbody>
+      <tr><td><strong style="color:#27AAE1">Performance Review</strong></td><td>Performance in current role</td><td>Evidence, goals, and outcomes</td></tr>
+      <tr><td><strong style="color:#27DBE1">360° Feedback</strong></td><td>Broader input and perspectives</td><td>Supports development — does not replace manager accountability</td></tr>
+      <tr><td><strong style="color:#972CE1">Promotions</strong></td><td>Readiness for the next role</td><td>Sustained performance, scope, impact, demonstrated behaviours</td></tr>
+    </tbody>
+  </table>
+  <div class="cmp-callout cp">Promotion discussions are <strong>confidential</strong> until formally communicated.</div>
+
+  <div class="cmp-sub-title" style="margin-top:28px;"><div class="cmp-icon cmp-it">🧩</div>Governance — It's a Shared System</div>
+  <div class="cmp-chips">
+    <span class="cmp-chip">👤 Employee → drafts goals</span>
+    <span class="cmp-chip">🧑‍💼 Manager → raises quality</span>
+    <span class="cmp-chip">📊 SLT → ensures consistency</span>
+    <span class="cmp-chip">🤝 HR → audits and supports</span>
+    <span class="cmp-chip">⚡ ELT → reinforces standards</span>
+  </div>
+
+  <div class="cmp-page-nav">
+    <button class="cmp-btn" onclick="cmpGo(1)">← Section 01</button>
+    <span class="cmp-page-counter">2 / 4</span>
+    <button class="cmp-btn primary" onclick="cmpGo(3)">Section 03 →</button>
+  </div>
+</div>
+
+<!-- ═══ PAGE 3: MANAGING PEOPLE ═══ -->
+<div class="cmp-page" id="cmp-p3">
+  <span class="cmp-badge">03 · Managing People</span>
+  <h2 class="cmp-section-title">Feedback, Coaching<br>& <em>Difficult Conversations</em></h2>
+  <p class="cmp-section-intro">Strong performance reviews and people conversations are decision-making moments — not just process steps.</p>
+
+  <div class="cmp-sub-title"><div class="cmp-icon cmp-ic">🛠</div>What Good Reviews Look Like</div>
+  <div class="cmp-grid">
+    <div class="cmp-mini"><div class="cmp-mini-label">Whole-period view</div><div class="cmp-mini-body">Not just recent performance — the full cycle</div></div>
+    <div class="cmp-mini"><div class="cmp-mini-label">Specific evidence</div><div class="cmp-mini-body">Examples, not impressions or generalisations</div></div>
+    <div class="cmp-mini"><div class="cmp-mini-label">Impact focus</div><div class="cmp-mini-body">Effect on team, work, and outcomes</div></div>
+    <div class="cmp-mini"><div class="cmp-mini-label">Role alignment</div><div class="cmp-mini-body">Assessed against expectations, not peers</div></div>
+    <div class="cmp-mini"><div class="cmp-mini-label">Balanced view</div><div class="cmp-mini-body">Both strengths and development areas</div></div>
+    <div class="cmp-mini"><div class="cmp-mini-label">Clarity</div><div class="cmp-mini-body">Concise, well-structured feedback that stands alone</div></div>
+  </div>
+  <div class="cmp-callout">👉 One strong example is more valuable than multiple vague statements.</div>
+
+  <div class="cmp-divider"></div>
+
+  <div class="cmp-sub-title"><div class="cmp-icon cmp-it">⚖️</div>Before Submitting — Ask Yourself</div>
+  <ul class="cmp-arrows">
+    <li>Is this evidence-based?</li>
+    <li>Is it balanced and fair?</li>
+    <li>Have I checked for bias?</li>
+    <li>Could I confidently explain this in calibration?</li>
+  </ul>
+  <div class="cmp-callout ct">If not — refine before submitting. Your written review is what leadership uses to make decisions.</div>
+
+  <div class="cmp-divider"></div>
+
+  <div class="cmp-sub-title"><div class="cmp-icon cmp-ip">💬</div>Leading Performance Conversations</div>
+  <div class="cmp-card">
+    <p>Strong managers <strong>lead with clarity, not comfort</strong>. They separate performance (facts) from potential (future), ground conversations in evidence and outcomes, and set clear expectations for next steps and development.</p>
+  </div>
+  <div class="cmp-2col" style="margin-top:14px;">
+    <div class="cmp-card" style="margin:0;background:rgba(253,183,102,0.06);border-color:rgba(253,183,102,0.25);">
+      <div style="font-size:11px;font-weight:700;color:#FDB766;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;">⚠️ Common Pitfalls</div>
+      <ul class="cmp-bullets">
+        <li>Overweighting recent performance</li>
+        <li>Using vague or generic feedback</li>
+        <li>Comparing employees to each other</li>
+        <li>Avoiding difficult performance calls</li>
+        <li>Confusing performance with promotion readiness</li>
+      </ul>
+    </div>
+    <div class="cmp-card" style="margin:0;background:rgba(0,163,118,0.06);border-color:rgba(0,163,118,0.25);">
+      <div style="font-size:11px;font-weight:700;color:#00A376;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;">✅ Strong Approach</div>
+      <ul class="cmp-bullets">
+        <li>Anchor feedback to goals and evidence</li>
+        <li>Describe behaviours, not personality traits</li>
+        <li>Pause before submitting decisions</li>
+        <li>Write with calibration in mind</li>
+        <li>Review performance across the full cycle</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="cmp-quote">Managers are accountable for being <em>evidence gatherers, bias interrupters</em>, and clear storytellers — articulating rationale that stands on its own.</div>
+
+  <div class="cmp-sub-title"><div class="cmp-icon cmp-io">🔗</div>Where to Go Next</div>
+  <div class="cmp-chips">
+    <a href="https://lattice.com/login" target="_blank" class="cmp-chip">📊 Performance Review in Lattice ↗</a>
+    <span class="cmp-chip">🎓 Manager Training</span>
+    <span class="cmp-chip">🧠 Feedback & Calibration Guidance</span>
+    <span class="cmp-chip">🤝 HR / People Partner Support</span>
+  </div>
+
+  <div class="cmp-page-nav">
+    <button class="cmp-btn" onclick="cmpGo(2)">← Section 02</button>
+    <span class="cmp-page-counter">3 / 4</span>
+    <button class="cmp-btn primary" onclick="cmpGo(4)">Section 04 →</button>
+  </div>
+</div>
+
+<!-- ═══ PAGE 4: CULTURE ═══ -->
+<div class="cmp-page" id="cmp-p4">
+  <span class="cmp-badge">04 · Culture & Business Impact</span>
+  <h2 class="cmp-section-title">Recognition &<br><em>Winning Behaviours</em></h2>
+  <p class="cmp-section-intro">Recognition is a core leadership behaviour at Cyara — not optional, and not just a nice-to-have. What gets recognised gets repeated.</p>
+
+  <div class="cmp-sub-title"><div class="cmp-icon cmp-io">🎯</div>The Standard</div>
+  <ul class="cmp-bullets">
+    <li>Use recognition <strong>consistently throughout the month</strong> — not in bursts</li>
+    <li>Provide <strong>specific, outcome-focused, behaviour-aligned</strong> recognition</li>
+    <li>Link recognition to <strong>company values and winning behaviours</strong></li>
+    <li>Recognise both <strong>individual and cross-team</strong> contributions</li>
+    <li>Use the majority of your <strong>monthly Cynar allocation (200/month)</strong></li>
+  </ul>
+
+  <div class="cmp-stats">
+    <div class="cmp-stat"><div class="cmp-stat-num">27%</div><div class="cmp-stat-label">Current manager-led recognition coverage</div></div>
+    <div class="cmp-stat"><div class="cmp-stat-num">50%+</div><div class="cmp-stat-label">2026 target coverage</div></div>
+    <div class="cmp-stat"><div class="cmp-stat-num">200</div><div class="cmp-stat-label">Monthly Cynar allocation per manager</div></div>
+    <div class="cmp-stat"><div class="cmp-stat-num">80%+</div><div class="cmp-stat-label">Monthly Cynar utilisation target</div></div>
+  </div>
+
+  <div class="cmp-callout co"><strong>Closing the recognition gap is a key priority for 2026.</strong> Peer recognition is strong — manager-led recognition is not. This is on you.</div>
+
+  <div class="cmp-divider"></div>
+
+  <div class="cmp-sub-title"><div class="cmp-icon cmp-it">🛠</div>What High-Quality Recognition Looks Like</div>
+  <div class="cmp-grid">
+    <div class="cmp-mini"><div class="cmp-mini-label">Specific</div><div class="cmp-mini-body">Clearly describes what the person did — not just "great job"</div></div>
+    <div class="cmp-mini"><div class="cmp-mini-label">Impact-Focused</div><div class="cmp-mini-body">Explains why it mattered — to the customer, team, or outcome</div></div>
+    <div class="cmp-mini"><div class="cmp-mini-label">Values-Aligned</div><div class="cmp-mini-body">Links to company behaviours — not just effort</div></div>
+    <div class="cmp-mini"><div class="cmp-mini-label">Timely</div><div class="cmp-mini-body">Given close to the moment — not weeks later</div></div>
+    <div class="cmp-mini"><div class="cmp-mini-label">Visible</div><div class="cmp-mini-body">Shared so others can learn from and build on it</div></div>
+  </div>
+
+  <div class="cmp-quote" style="font-size:15px;padding:24px 28px;">
+    "Your proactive communication during the customer escalation kept everyone aligned and prevented delays. A great example of <em>ownership and collaboration</em>."
+    <div style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:10px;">Behaviour → Impact → Value — this is the formula.</div>
+  </div>
+
+  <div class="cmp-divider"></div>
+
+  <div class="cmp-sub-title"><div class="cmp-icon cmp-ic">⚖️</div>Recognition vs Reward</div>
+  <div class="cmp-2col">
+    <div class="cmp-card" style="margin:0;border-color:rgba(39,170,225,0.3);">
+      <div style="font-size:11px;font-weight:700;color:#27AAE1;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;">Recognition</div>
+      <ul class="cmp-bullets">
+        <li>Ongoing and frequent</li>
+        <li>Reinforces behaviours and impact</li>
+        <li>Happens in real time via Bonusly</li>
+      </ul>
+    </div>
+    <div class="cmp-card" style="margin:0;border-color:rgba(151,44,225,0.3);">
+      <div style="font-size:11px;font-weight:700;color:#972CE1;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;">Reward</div>
+      <ul class="cmp-bullets">
+        <li>Structured: bonus, compensation, promotion</li>
+        <li>Based on sustained performance</li>
+        <li>Through formal performance processes</li>
+      </ul>
+    </div>
+  </div>
+  <div class="cmp-callout" style="margin-top:14px;">Recognition <strong>supports</strong> reward — but does not replace it.</div>
+
+  <div class="cmp-pitfall">
+    <div class="cmp-pitfall-title">⚠️ Common Pitfalls to Avoid</div>
+    <ul class="cmp-bullets">
+      <li>Generic praise ("Great job!") without specifics</li>
+      <li>Recognising effort without explaining impact</li>
+      <li>Delayed recognition — weeks after the moment</li>
+      <li>Inconsistent usage — all at month-end</li>
+      <li>Only recognising within your own team</li>
+    </ul>
+  </div>
+
+  <div class="cmp-sub-title"><div class="cmp-icon cmp-it">🔗</div>Tools & Resources</div>
+  <div class="cmp-chips">
+    <a href="https://bonus.ly/users/sign_in_start" target="_blank" class="cmp-chip">🎁 Bonusly Platform ↗</a>
+    <span class="cmp-chip">🎓 Manager Recognition Training</span>
+    <span class="cmp-chip">📈 Winning Reinforcement Dashboard</span>
+    <span class="cmp-chip">🤝 HR / People Partner Support</span>
+  </div>
+
+  <div class="cmp-quote">What leaders recognise becomes <em>what teams prioritise</em>. Recognition is how we reinforce ownership, collaboration, customer focus, and high performance standards.</div>
+
+  <div class="cmp-page-nav">
+    <button class="cmp-btn" onclick="cmpGo(3)">← Section 03</button>
+    <span class="cmp-page-counter">4 / 4</span>
+    <button class="cmp-btn primary" onclick="cmpGo(0)">↑ Back to Start</button>
+  </div>
+</div>
+
+</div><!-- end #cmp2026 -->
+
+<script>
+(function() {
+  var cur = 0;
+  var total = 5;
+  var labels = ['Cover','Foundations','Performance','People','Culture'];
+
+  // Build dots
+  var dotsEl = document.getElementById('cmpDots');
+  for (var i = 0; i < total; i++) {
+    var b = document.createElement('button');
+    b.className = 'cmp-dot' + (i === 0 ? ' active' : '');
+    b.title = labels[i];
+    b.setAttribute('data-i', i);
+    b.onclick = function() { cmpGo(parseInt(this.getAttribute('data-i'))); };
+    dotsEl.appendChild(b);
+  }
+
+  window.cmpGo = function(n) {
+    document.getElementById('cmp-p' + cur).classList.remove('active');
+    cur = n;
+    document.getElementById('cmp-p' + n).classList.add('active');
+    document.getElementById('cmp2026').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // Progress
+    document.getElementById('cmpProgress').style.width = ((cur / (total - 1)) * 100) + '%';
+    // Dots
+    var dots = document.querySelectorAll('.cmp-dot');
+    for (var i = 0; i < dots.length; i++) {
+      dots[i].classList.toggle('active', i === cur);
+    }
+  };
+
+  // Init progress
+  document.getElementById('cmpProgress').style.width = '0%';
+})();
+</script>
